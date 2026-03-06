@@ -11,7 +11,7 @@
   // Forward OpenClaw gateway and auth callback ports
   "forwardPorts": [18789, 1455],
   "portsAttributes": {
-    "18789": { "label": "OpenClaw Gateway", "onAutoForward": "notify" },
+    "18789": { "label": "OpenClaw Gateway", "onAutoForward": "openBrowser" },
     "1455": { "label": "OpenClaw Auth Callback", "onAutoForward": "silent" }
   },
 
