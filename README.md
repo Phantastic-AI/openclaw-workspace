@@ -19,44 +19,57 @@
 4. Wait for the container to build (first time takes a few minutes)
 5. VS Code will reconnect inside the container with all tools pre-configured
 
+### First-Time Setup
+
+Run the onboarding wizard inside the devcontainer terminal. This configures credentials, channels, and gateway settings:
+
+```bash
+openclaw onboard
+```
+
 ### Starting the Gateway
-0. Check if `openclaw` is already running
-   ```bash
-   openclaw status
-   ```
-1. In the devcontainer terminal, start the gateway:
+
+1. Start the gateway:
    ```bash
    openclaw gateway --port 18789
    ```
-2. Get the dashboard URL with your auth token:
+2. Open a second terminal and get the dashboard URL with your auth token:
    ```bash
    openclaw dashboard
    ```
-3. Open the URL in your Mac's browser — VS Code automatically forwards port 18789 to localhost. The URL will look like:
+3. Open the URL in your browser — VS Code automatically forwards port 18789 to localhost:
    ```
    http://localhost:18789/#token=<your-token>
    ```
 
-You can check gateway health anytime with:
+### Verifying the Setup
+
 ```bash
-openclaw status
+# Check gateway health
 openclaw health
+
+# Full status overview
+openclaw status
+
+# Diagnose issues
+openclaw doctor
 ```
 
 ### What's Included
 
-- **Node.js 22** (Debian Bookworm) — matches OpenClaw's runtime
-- **Bun** and **pnpm** — OpenClaw's build tools
+The devcontainer uses the [official OpenClaw image](https://github.com/openclaw/openclaw/pkgs/container/openclaw) (`ghcr.io/openclaw/openclaw:latest`) with additional dev tools:
+
+- **OpenClaw CLI** — pre-installed with all dependencies (Node.js 22, Bun, pnpm)
 - **Docker CLI** — for sandbox support
 - **GitHub CLI** — for PR and issue workflows
-- Common dev tools: git, zsh, vim, jq, build-essential
+- Dev tools: git, zsh, vim, jq, build-essential
 
 ### Ports
 
-| Port  | Description              |
-|-------|--------------------------|
-| 18789 | OpenClaw Gateway         |
-| 1455  | OpenClaw Auth Callback   |
+| Port  | Description            |
+|-------|------------------------|
+| 18789 | OpenClaw Gateway       |
+| 1455  | OpenClaw Auth Callback |
 
 ### Alternative: Docker Compose
 
@@ -66,3 +79,9 @@ You can also run the dev environment without VS Code:
 docker compose -f .devcontainer/docker-compose.yml up -d
 docker compose -f .devcontainer/docker-compose.yml exec devcontainer zsh
 ```
+
+### References
+
+- [OpenClaw Docker Docs](https://docs.openclaw.ai/install/docker)
+- [OpenClaw CLI Reference](https://docs.openclaw.ai/cli)
+- [OpenClaw Troubleshooting](https://docs.openclaw.ai/troubleshooting)
