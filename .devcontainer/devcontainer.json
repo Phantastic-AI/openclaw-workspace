@@ -1,0 +1,55 @@
+{
+  "name": "OpenClaw Development",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+
+  // Run as non-root user (matches OpenClaw's uid 1000 convention)
+  "remoteUser": "node",
+
+  // Forward OpenClaw gateway and auth callback ports
+  "forwardPorts": [18789, 1455],
+  "portsAttributes": {
+    "18789": { "label": "OpenClaw Gateway", "onAutoForward": "notify" },
+    "1455": { "label": "OpenClaw Auth Callback", "onAutoForward": "silent" }
+  },
+
+  // Mount Docker socket for sandbox support
+  "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+  ],
+
+  // Environment variables
+  "containerEnv": {
+    "NODE_ENV": "development",
+    "TERM": "xterm-256color"
+  },
+
+  // Install dependencies after container creation
+  "postCreateCommand": "if [ -f pnpm-lock.yaml ]; then pnpm install --frozen-lockfile; elif [ -f package-lock.json ]; then npm ci; elif [ -f package.json ]; then npm install; fi",
+
+  // VS Code extensions for OpenClaw development
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-azuretools.vscode-docker",
+        "eamodio.gitlens",
+        "bradlc.vscode-tailwindcss",
+        "ms-vscode.vscode-typescript-next"
+      ],
+      "settings": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+        "terminal.integrated.defaultProfile.linux": "zsh"
+      }
+    }
+  },
+
+  // Features from devcontainer registry
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  }
+}
