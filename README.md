@@ -20,7 +20,10 @@
 5. VS Code will reconnect inside the container with all tools pre-configured
 
 ### Starting the Gateway
-
+0. Check if `openclaw` is already running
+   ```bash
+   openclaw status
+   ```
 1. In the devcontainer terminal, start the gateway:
    ```bash
    openclaw gateway --port 18789
