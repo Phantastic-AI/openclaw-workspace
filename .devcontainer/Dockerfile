@@ -1,34 +1,23 @@
 # OpenClaw Development Container
-# Based on the official OpenClaw stack: Node.js 22 on Debian Bookworm
-FROM node:22-bookworm
+# Based on the official OpenClaw image
+FROM ghcr.io/openclaw/openclaw:latest
 
 LABEL maintainer="openclaw-workspace"
+
+USER root
 
 # Avoid prompts during package installation
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install system dependencies
+# Install dev tools not included in the official image
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    git \
-    curl \
-    wget \
     sudo \
     zsh \
     vim \
     jq \
-    ca-certificates \
-    gnupg \
     build-essential \
-    python3 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
-
-# Install Bun (required by OpenClaw build scripts)
-RUN curl -fsSL https://bun.sh/install | bash
-ENV PATH="/root/.bun/bin:${PATH}"
-
-# Enable corepack for pnpm support
-RUN corepack enable
 
 # Install Docker CLI (for sandbox support)
 RUN install -m 0755 -d /etc/apt/keyrings \
@@ -52,9 +41,5 @@ RUN mkdir -p /home/$USERNAME/.openclaw/workspace \
 
 USER $USERNAME
 WORKDIR /workspace
-
-# Install Bun for non-root user as well
-RUN curl -fsSL https://bun.sh/install | bash
-ENV PATH="/home/node/.bun/bin:${PATH}"
 
 ENV DEBIAN_FRONTEND=dialog

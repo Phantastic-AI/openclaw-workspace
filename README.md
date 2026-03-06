@@ -19,6 +19,27 @@
 4. Wait for the container to build (first time takes a few minutes)
 5. VS Code will reconnect inside the container with all tools pre-configured
 
+### Starting the Gateway
+
+1. In the devcontainer terminal, start the gateway:
+   ```bash
+   openclaw gateway --port 18789
+   ```
+2. Get the dashboard URL with your auth token:
+   ```bash
+   openclaw dashboard
+   ```
+3. Open the URL in your Mac's browser — VS Code automatically forwards port 18789 to localhost. The URL will look like:
+   ```
+   http://localhost:18789/#token=<your-token>
+   ```
+
+You can check gateway health anytime with:
+```bash
+openclaw status
+openclaw health
+```
+
 ### What's Included
 
 - **Node.js 22** (Debian Bookworm) — matches OpenClaw's runtime
